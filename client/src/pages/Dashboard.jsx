@@ -1,87 +1,144 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+
 import ScoreCard from "../components/ScoreCard";
 import SkillCard from "../components/SkillCard";
 import QuestionCard from "../components/QuestionCard";
 
 function Dashboard() {
+  const [analysis, setAnalysis] = useState(null);
 
-    const [analysis, setAnalysis] = useState(null);
+  useEffect(() => {
+    const loadData = async () => {
+      const res = await axios.get(
+        "http://localhost:5000/api/resume/latest"
+      );
 
-    useEffect(() => {
+      setAnalysis(res.data);
+    };
 
-        const loadData = async () => {
+    loadData();
+  }, []);
 
-            const res = await axios.get("http://localhost:5000/api/resume/latest");
-
-            setAnalysis(res.data);
-
-        };
-
-        loadData();
-
-    }, []);
-
-    if (!analysis) return <h2>Loading...</h2>;
-
+  if (!analysis)
     return (
+      <h2 className="text-center text-2xl mt-20">
+        Loading AI Report...
+      </h2>
+    );
 
-        <div style={{padding:"30px"}}>
+  return (
+    <div className="min-h-screen bg-slate-100 p-8">
 
-            <h1>InterviewDNA Report</h1>
+      {/* AI Header */}
 
-            <div style={{
-                display:"flex",
-                gap:"20px",
-                marginBottom:"30px"
-            }}>
+      <div className="rounded-3xl bg-gradient-to-r from-blue-700 via-purple-700 to-indigo-700 text-white p-10 shadow-2xl mb-10">
 
-                <ScoreCard
-                    title="Resume Score"
-                    score={analysis.resumeScore}
-                />
+        <h1 className="text-5xl font-bold">
+          🤖 InterviewDNA AI Recruiter
+        </h1>
 
-                <ScoreCard
-                    title="ATS Score"
-                    score={analysis.atsScore}
-                />
+        <p className="mt-4 text-xl">
+          Hello 👋 Welcome Back
+        </p>
 
-            </div>
+        <p className="mt-6 text-lg leading-8 text-blue-100">
 
-            <SkillCard
-                title="Strengths"
-                items={analysis.strengths}
-            />
+          Your resume has been analyzed successfully.
 
-            <SkillCard
-                title="Weaknesses"
-                items={analysis.weaknesses}
-            />
+          You have good technical skills.
 
-            <SkillCard
-                title="Missing Skills"
-                items={analysis.missingSkills}
-            />
+          Improve your weak areas and practice the interview
+          questions below to maximize your placement chances.
 
-            <QuestionCard
-                title="Technical Questions"
-                items={analysis.technicalQuestions}
-            />
+        </p>
 
-            <QuestionCard
-                title="Project Questions"
-                items={analysis.projectQuestions}
-            />
+      </div>
 
-            <QuestionCard
-                title="HR Questions"
-                items={analysis.hrQuestions}
-            />
+      {/* Score Cards */}
+
+      <div className="grid md:grid-cols-2 gap-8 mb-10">
+
+        <ScoreCard
+          title="Resume Score"
+          score={analysis.resumeScore}
+        />
+
+        <ScoreCard
+          title="ATS Score"
+          score={analysis.atsScore}
+        />
+
+      </div>
+
+      {/* Skill Cards */}
+
+      <div className="grid lg:grid-cols-3 gap-8 mb-10">
+
+        <div className="bg-white rounded-3xl shadow-xl p-6">
+
+          <SkillCard
+            title="💪 Strengths"
+            items={analysis.strengths}
+          />
 
         </div>
 
-    );
+        <div className="bg-white rounded-3xl shadow-xl p-6">
 
+          <SkillCard
+            title="⚠ Weaknesses"
+            items={analysis.weaknesses}
+          />
+
+        </div>
+
+        <div className="bg-white rounded-3xl shadow-xl p-6">
+
+          <SkillCard
+            title="🚀 Missing Skills"
+            items={analysis.missingSkills}
+          />
+
+        </div>
+
+      </div>
+
+      {/* Technical */}
+
+      <div className="bg-white rounded-3xl shadow-xl p-7 mb-8">
+
+        <QuestionCard
+          title="💻 Technical Interview Questions"
+          items={analysis.technicalQuestions}
+        />
+
+      </div>
+
+      {/* Project */}
+
+      <div className="bg-white rounded-3xl shadow-xl p-7 mb-8">
+
+        <QuestionCard
+          title="📂 Project Interview Questions"
+          items={analysis.projectQuestions}
+        />
+
+      </div>
+
+      {/* HR */}
+
+      <div className="bg-white rounded-3xl shadow-xl p-7">
+
+        <QuestionCard
+          title="👔 HR Interview Questions"
+          items={analysis.hrQuestions}
+        />
+
+      </div>
+
+    </div>
+  );
 }
 
 export default Dashboard;

@@ -1,30 +1,37 @@
-import { Link } from "react-router-dom";
+import { FaBell } from "react-icons/fa";
 
 function Navbar() {
   return (
-    <nav className="bg-blue-700 text-white shadow-lg">
+    <header className="bg-white shadow flex justify-between items-center px-8 py-5">
 
-      <div className="max-w-7xl mx-auto flex justify-between items-center p-5">
+      <div>
 
-        <h1 className="text-2xl font-bold">
-          InterviewDNA
-        </h1>
+        <h2 className="text-3xl font-bold text-slate-800">
 
-        <div className="space-x-6">
+          Welcome 👋
 
-          <Link to="/">Home</Link>
+        </h2>
 
-          <Link to="/upload">Upload Resume</Link>
+        <p className="text-gray-500">
 
-          <Link to="/dashboard">Dashboard</Link>
-          
-          <Link to="/history">History</Link>
+          Let's crack your dream company interview.
 
-        </div>
+        </p>
 
       </div>
 
-    </nav>
+      <div className="flex items-center gap-5">
+
+        <FaBell size={22} />
+
+        <img
+          src="https://i.pravatar.cc/100"
+          alt=""
+          className="w-12 h-12 rounded-full"
+        />
+
+      </div>
+    </header>
   );
 }
 

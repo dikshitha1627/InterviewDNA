@@ -1,14 +1,19 @@
 const express = require("express");
 const router = express.Router();
 
+const upload = require("../middleware/uploadMiddleware");
+
+const {
+  uploadResume,
+  getLatestResume,
+} = require("../controllers/resumeController");
+
 console.log("Resume Routes Loaded");
 
-router.get("/", (req, res) => {
-    res.send("Resume Root Working");
-});
+// Upload Resume
+router.post("/upload", upload.single("resume"), uploadResume);
 
-router.get("/latest", (req, res) => {
-    res.send("Latest Route Working");
-});
+// Get Latest Resume Analysis
+router.get("/latest", getLatestResume);
 
 module.exports = router;
